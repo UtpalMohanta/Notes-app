@@ -18,12 +18,10 @@ fun AddEditNoteScreen(
 ) {
     val scope = rememberCoroutineScope()
 
-    // 👉 এই remember গুলো ফাংশনের ভিতরে থাকবে, বাইরে নয়
     var title by remember { mutableStateOf("") }
     var content by remember { mutableStateOf("") }
     var color by remember { mutableStateOf(0xFFFFFF) }
 
-    // noteId দিয়ে পুরোনো নোট লোড করা
     LaunchedEffect(key1 = noteId) {
         if (noteId != null) {
             val note = viewModel.getNoteById(noteId)

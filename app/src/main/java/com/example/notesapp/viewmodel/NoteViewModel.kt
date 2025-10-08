@@ -18,18 +18,12 @@ class NoteViewModel(application: Application) : AndroidViewModel(application) {
     private val repo: NoteRepository
     private val _searchQuery = MutableStateFlow("")
 
-
     init {
         val dao = NoteDatabase.getDatabase(application).noteDao()
         repo = NoteRepository(dao)
     }
-
-
     val searchQuery: StateFlow<String> = _searchQuery
-
-
     fun setSearchQuery(q: String) { _searchQuery.value = q }
-
 
     // combine search query with notes flow
     val notes = _searchQuery.debounce(200)
@@ -38,7 +32,6 @@ class NoteViewModel(application: Application) : AndroidViewModel(application) {
             else repo.searchNotes(query)
         }
         .stateIn(viewModelScope, SharingStarted.Lazily, emptyList())
-
 
     fun addNote(title: String, content: String, color: Int) = viewModelScope.launch {
         val note = Note(
@@ -50,10 +43,7 @@ class NoteViewModel(application: Application) : AndroidViewModel(application) {
         repo.insert(note)
     }
 
-
     fun updateNote(note: Note) = viewModelScope.launch { repo.update(note) }
     fun deleteNote(note: Note) = viewModelScope.launch { repo.delete(note) }
-
-
     suspend fun getNoteById(id: Int) = repo.getNoteById(id)
 }
