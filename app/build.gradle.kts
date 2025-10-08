@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     id("org.jetbrains.kotlin.kapt")
     id("com.google.dagger.hilt.android")
+    id("com.google.devtools.ksp")
 }
 
 android {
@@ -55,13 +56,13 @@ dependencies {
     implementation(libs.androidx.activity.compose)
 
     // Compose BOM
-    implementation(platform("androidx.compose:compose-bom:2025.02.00"))
+    implementation(platform(libs.androidx.compose.bom.v20250200))
 
     // Compose libraries
-    implementation("androidx.compose.ui:ui")
-    implementation("androidx.compose.ui:ui-tooling-preview")
-    implementation("androidx.compose.material3:material3")
-    implementation("androidx.compose.material:material-icons-extended")
+    implementation(libs.androidx.ui)
+    implementation(libs.androidx.ui.tooling.preview)
+    implementation(libs.androidx.material3)
+    implementation(libs.androidx.material.icons.extended)
 
     // Lifecycle & ViewModel
     implementation(libs.androidx.lifecycle.viewmodel.compose)
@@ -72,6 +73,7 @@ dependencies {
     // Hilt
     implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.hilt.android)
+    implementation(libs.androidx.junit.ktx)
     kapt(libs.hilt.android.compiler)
     implementation(libs.androidx.hilt.lifecycle.viewmodel)
     kapt(libs.androidx.hilt.compiler)
@@ -82,7 +84,7 @@ dependencies {
 
     // Room
     implementation(libs.androidx.room.runtime)
-    kapt(libs.androidx.room.compiler)
+    ksp(libs.androidx.room.compiler.v250)
     implementation(libs.androidx.room.ktx)
 
 }
