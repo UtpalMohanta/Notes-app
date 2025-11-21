@@ -12,64 +12,66 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddEditNoteScreen(
-    viewModel: NoteViewModel,
-    noteId: Int?,
-    onDone: () -> Unit
+    viewModel:NoteViewModel,
+    noteId:Int?,
+    onDone:()->Unit
 ) {
-    val scope = rememberCoroutineScope()
+    val scope=rememberCoroutineScope()
 
-    var title by remember { mutableStateOf("") }
-    var content by remember { mutableStateOf("") }
-    var color by remember { mutableStateOf(0xFFFFFF) }
+    var title by remember{mutableStateOf("")}
+    var content by remember{mutableStateOf("")}
+    var color by remember{mutableStateOf(0xFFFFFF)}
 
-    LaunchedEffect(key1 = noteId) {
-        if (noteId != null) {
-            val note = viewModel.getNoteById(noteId)
-            note?.let {
-                title = it.title
-                content = it.content
-                color = it.color
+    LaunchedEffect(key1=noteId){
+        if(noteId!=null){
+            val note=viewModel.getNoteById(noteId)
+            note?.let{
+                title=it.title
+                content=it.content
+                color=it.color
             }
         }
     }
 
     Scaffold(
-        topBar = {
+        topBar={
             TopAppBar(
-                title = { Text(if (noteId == null) "Add Note" else "Edit Note") }
+                title={
+                    Text(if(noteId==null)"Add Note" else "Edit Note")
+                }
             )
         }
     ) { padding ->
         Column(
-            modifier = Modifier
+            modifier=Modifier
                 .padding(padding)
                 .padding(16.dp)
         ) {
             OutlinedTextField(
-                value = title,
-                onValueChange = { title = it },
-                label = { Text("Title") },
-                modifier = Modifier.fillMaxWidth()
+                value=title,
+                onValueChange={title=it},
+                label={Text("Title")},
+                modifier=Modifier.fillMaxWidth()
             )
 
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier=Modifier.height(8.dp))
 
             OutlinedTextField(
-                value = content,
-                onValueChange = { content = it },
-                label = { Text("Content") },
-                modifier = Modifier.fillMaxWidth(),
-                maxLines = 6
+                value=content,
+                onValueChange={content=it},
+                label={Text("Content")},
+                modifier=Modifier.fillMaxWidth(),
+                maxLines=6
             )
 
-            Spacer(modifier = Modifier.height(12.dp))
+            Spacer(modifier=Modifier.height(12.dp))
 
-            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                Button(onClick = {
-                    if (title.isBlank() && content.isBlank()) return@Button
-                    scope.launch {
-                        if (noteId == null) {
-                            viewModel.addNote(title, content, color)
+            Row(horizontalArrangement=Arrangement.spacedBy(8.dp)){
+                Button(onClick={
+                    if(title.isBlank() && content.isBlank())return@Button
+                    scope.launch{
+                        if(noteId==null){
+                            viewModel.addNote(title,content,color)
                         } else {
                             viewModel.updateNote(
                                 Note(
